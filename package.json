@@ -1,0 +1,31 @@
+{
+  "name": "fitness-health-dashboard",
+  "version": "1.0.0",
+  "description": "Modern fitness and health tracking dashboard with BMI calculator, calorie estimator, workout planner, and progress tracker",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:unit": "vitest run --grep -Property",
+    "test:property": "vitest run --grep Property"
+  },
+  "keywords": ["fitness", "health", "dashboard", "bmi", "calorie", "workout"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "fast-check": "^3.15.0",
+    "vite": "^5.0.0",
+    "vitest": "^1.2.0",
+    "@vitest/ui": "^1.2.0",
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.0"
+  }
+}

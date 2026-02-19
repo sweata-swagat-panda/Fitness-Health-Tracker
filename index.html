@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Fitness & Health Dashboard - Track your BMI, calories, workouts, and progress">
+  <title>Fitness & Health Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div id="app" class="min-h-screen">
+    <!-- Navigation Sidebar -->
+    <nav id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-dark-bg border-r border-gray-700 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-50" role="navigation" aria-label="Main navigation">
+      <div class="p-6">
+        <h1 class="text-2xl font-bold text-neon-blue mb-8">Fitness Dashboard</h1>
+        <ul class="space-y-4">
+          <li>
+            <a href="#bmi-calculator" id="nav-bmi" class="block px-4 py-2 rounded-md hover:bg-darker-bg focus-visible-ring" aria-label="Navigate to BMI Calculator">
+              BMI Calculator
+            </a>
+          </li>
+          <li>
+            <a href="#calorie-estimator" id="nav-calorie" class="block px-4 py-2 rounded-md hover:bg-darker-bg focus-visible-ring" aria-label="Navigate to Calorie Estimator">
+              Calorie Estimator
+            </a>
+          </li>
+          <li>
+            <a href="#workout-planner" id="nav-workout" class="block px-4 py-2 rounded-md hover:bg-darker-bg focus-visible-ring" aria-label="Navigate to Workout Planner">
+              Workout Planner
+            </a>
+          </li>
+          <li>
+            <a href="#progress-tracker" id="nav-progress" class="block px-4 py-2 rounded-md hover:bg-darker-bg focus-visible-ring" aria-label="Navigate to Progress Tracker">
+              Progress Tracker
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu Toggle -->
+    <button id="mobile-menu-toggle" class="fixed top-4 left-4 z-50 lg:hidden bg-dark-bg p-2 rounded-md" aria-label="Toggle mobile menu" aria-expanded="false">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+
+    <!-- Main Content -->
+    <main id="main-content" class="lg:ml-64 p-4 lg:p-8" role="main">
+      <div class="max-w-7xl mx-auto">
+        <header class="mb-8">
+          <h2 class="text-3xl font-bold text-neon-green">Your Fitness Journey</h2>
+          <p class="text-gray-400 mt-2">Track your health metrics and achieve your goals</p>
+        </header>
+
+        <!-- Feature Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- BMI Calculator Card -->
+          <section id="bmi-calculator" class="card" aria-labelledby="bmi-title">
+            <h3 id="bmi-title" class="text-xl font-semibold text-neon-blue mb-4">BMI Calculator</h3>
+            <form id="bmi-form" class="space-y-4" aria-label="BMI calculation form">
+              <div>
+                <label for="bmi-weight" class="block text-sm font-medium mb-2">Weight</label>
+                <div class="flex gap-2">
+                  <input 
+                    type="number" 
+                    id="bmi-weight" 
+                    data-test-id="bmi-weight-input"
+                    class="flex-1" 
+                    placeholder="Enter weight"
+                    aria-label="Weight value"
+                    aria-required="true"
+                    step="0.1"
+                    min="0"
+                  >
+                  <select 
+                    id="bmi-weight-unit" 
+                    data-test-id="bmi-weight-unit-select"
+                    class="w-24"
+                    aria-label="Weight unit"
+                  >
+                    <option value="kg">kg</option>
+                    <option value="lbs">lbs</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div>
+                <label for="bmi-height" class="block text-sm font-medium mb-2">Height</label>
+                <div class="flex gap-2">
+                  <input 
+                    type="number" 
+                    id="bmi-height" 
+                    data-test-id="bmi-height-input"
+                    class="flex-1" 
+                    placeholder="Enter height"
+                    aria-label="Height value"
+                    aria-required="true"
+                    step="0.1"
+                    min="0"
+                  >
+                  <select 
+                    id="bmi-height-unit" 
+                    data-test-id="bmi-height-unit-select"
+                    class="w-24"
+                    aria-label="Height unit"
+                  >
+                    <option value="cm">cm</option>
+                    <option value="ft">ft/in</option>
+                  </select>
+                </div>
+              </div>
+
+              <button 
+                type="submit" 
+                id="bmi-calculate-btn" 
+                data-test-id="bmi-calculate-button"
+                aria-label="Calculate BMI"
+              >
+                Calculate BMI
+              </button>
+            </form>
+
+            <div id="bmi-result" data-test-id="bmi-result" class="mt-6 hidden" role="region" aria-live="polite" aria-label="BMI calculation result">
+              <div class="text-center">
+                <p class="text-sm text-gray-400 mb-2">Your BMI</p>
+                <p id="bmi-value" data-test-id="bmi-value" class="text-4xl font-bold text-white mb-4" aria-label="BMI value"></p>
+                <div id="bmi-category" data-test-id="bmi-category" class="inline-block px-6 py-3 rounded-lg font-semibold text-sm" role="status" aria-label="BMI category"></div>
+              </div>
+            </div>
+
+            <div id="bmi-error" data-test-id="bmi-error" class="mt-4 hidden text-red-400 text-sm" role="alert"></div>
+          </section>
+
+          <!-- Calorie Estimator Card -->
+          <section id="calorie-estimator" class="card" aria-labelledby="calorie-title">
+            <h3 id="calorie-title" class="text-xl font-semibold text-neon-blue mb-4">Calorie Estimator</h3>
+            <form id="calorie-form" class="space-y-4" aria-label="Calorie estimation form">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label for="calorie-age" class="block text-sm font-medium mb-2">Age</label>
+                  <input 
+                    type="number" 
+                    id="calorie-age" 
+                    data-test-id="calorie-age-input"
+                    placeholder="Age"
+                    aria-label="Age"
+                    aria-required="true"
+                    min="15"
+                    max="120"
+                  >
+                </div>
+                <div>
+                  <label for="calorie-gender" class="block text-sm font-medium mb-2">Gender</label>
+                  <select 
+                    id="calorie-gender" 
+                    data-test-id="calorie-gender-select"
+                    aria-label="Gender"
+                    aria-required="true"
+                  >
+                    <option value="">Select</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label for="calorie-weight" class="block text-sm font-medium mb-2">Weight</label>
+                <div class="flex gap-2">
+                  <input 
+                    type="number" 
+                    id="calorie-weight" 
+                    data-test-id="calorie-weight-input"
+                    class="flex-1" 
+                    placeholder="Weight"
+                    aria-label="Weight value"
+                    aria-required="true"
+                    step="0.1"
+                    min="0"
+                  >
+                  <select 
+                    id="calorie-weight-unit" 
+                    data-test-id="calorie-weight-unit-select"
+                    class="w-24"
+                    aria-label="Weight unit"
+                  >
+                    <option value="kg">kg</option>
+                    <option value="lbs">lbs</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label for="calorie-height" class="block text-sm font-medium mb-2">Height</label>
+                <div class="flex gap-2">
+                  <input 
+                    type="number" 
+                    id="calorie-height" 
+                    data-test-id="calorie-height-input"
+                    class="flex-1" 
+                    placeholder="Height"
+                    aria-label="Height value"
+                    aria-required="true"
+                    step="0.1"
+                    min="0"
+                  >
+                  <select 
+                    id="calorie-height-unit" 
+                    data-test-id="calorie-height-unit-select"
+                    class="w-24"
+                    aria-label="Height unit"
+                  >
+                    <option value="cm">cm</option>
+                    <option value="ft">ft/in</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label for="calorie-activity-level" class="block text-sm font-medium mb-2">Activity Level</label>
+                <select 
+                  id="calorie-activity-level" 
+                  data-test-id="calorie-activity-select"
+                  aria-label="Activity level"
+                  aria-required="true"
+                >
+                  <option value="">Select activity level</option>
+                  <option value="sedentary">Sedentary (little/no exercise)</option>
+                  <option value="lightly_active">Lightly Active (1-3 days/week)</option>
+                  <option value="moderately_active">Moderately Active (3-5 days/week)</option>
+                  <option value="very_active">Very Active (6-7 days/week)</option>
+                  <option value="extra_active">Extra Active (physical job + exercise)</option>
+                </select>
+              </div>
+
+              <button 
+                type="submit" 
+                id="calorie-calculate-btn" 
+                data-test-id="calorie-calculate-button"
+                aria-label="Calculate calories"
+              >
+                Calculate Calories
+              </button>
+            </form>
+
+            <div id="calorie-result" data-test-id="calorie-result" class="mt-6 hidden" role="region" aria-live="polite" aria-label="Calorie calculation result">
+              <div class="space-y-3">
+                <div class="flex justify-between items-center p-3 bg-darker-bg rounded-md">
+                  <span class="text-gray-400">Maintenance:</span>
+                  <span id="calorie-maintenance" data-test-id="calorie-maintenance" class="text-xl font-bold text-neon-green"></span>
+                </div>
+                <div class="flex justify-between items-center p-3 bg-darker-bg rounded-md">
+                  <span class="text-gray-400">Weight Loss:</span>
+                  <span id="calorie-weight-loss" data-test-id="calorie-weight-loss" class="text-xl font-bold text-blue-400"></span>
+                </div>
+                <div class="flex justify-between items-center p-3 bg-darker-bg rounded-md">
+                  <span class="text-gray-400">Weight Gain:</span>
+                  <span id="calorie-weight-gain" data-test-id="calorie-weight-gain" class="text-xl font-bold text-orange-400"></span>
+                </div>
+              </div>
+            </div>
+
+            <div id="calorie-error" data-test-id="calorie-error" class="mt-4 hidden text-red-400 text-sm" role="alert"></div>
+          </section>
+
+          <!-- Workout Planner Card -->
+          <section id="workout-planner" class="card md:col-span-2" aria-labelledby="workout-title">
+            <h3 id="workout-title" class="text-xl font-semibold text-neon-blue mb-4">Workout Planner</h3>
+            
+            <form id="workout-form" class="mb-6 grid grid-cols-1 md:grid-cols-5 gap-4" aria-label="Add exercise form">
+              <div>
+                <label for="workout-exercise" class="block text-sm font-medium mb-2">Exercise</label>
+                <input 
+                  type="text" 
+                  id="workout-exercise" 
+                  data-test-id="workout-exercise-input"
+                  placeholder="Exercise name"
+                  aria-label="Exercise name"
+                  aria-required="true"
+                >
+              </div>
+              <div>
+                <label for="workout-sets" class="block text-sm font-medium mb-2">Sets</label>
+                <input 
+                  type="number" 
+                  id="workout-sets" 
+                  data-test-id="workout-sets-input"
+                  placeholder="Sets"
+                  aria-label="Number of sets"
+                  aria-required="true"
+                  min="1"
+                >
+              </div>
+              <div>
+                <label for="workout-reps" class="block text-sm font-medium mb-2">Reps</label>
+                <input 
+                  type="number" 
+                  id="workout-reps" 
+                  data-test-id="workout-reps-input"
+                  placeholder="Reps"
+                  aria-label="Number of reps"
+                  aria-required="true"
+                  min="1"
+                >
+              </div>
+              <div>
+                <label for="workout-day" class="block text-sm font-medium mb-2">Day</label>
+                <select 
+                  id="workout-day" 
+                  data-test-id="workout-day-select"
+                  aria-label="Day of week"
+                  aria-required="true"
+                >
+                  <option value="monday">Monday</option>
+                  <option value="tuesday">Tuesday</option>
+                  <option value="wednesday">Wednesday</option>
+                  <option value="thursday">Thursday</option>
+                  <option value="friday">Friday</option>
+                  <option value="saturday">Saturday</option>
+                  <option value="sunday">Sunday</option>
+                </select>
+              </div>
+              <div class="flex items-end">
+                <button 
+                  type="submit" 
+                  id="workout-add-btn" 
+                  data-test-id="workout-add-button"
+                  class="w-full"
+                  aria-label="Add exercise"
+                >
+                  Add Exercise
+                </button>
+              </div>
+            </form>
+
+            <div id="workout-error" data-test-id="workout-error" class="mb-4 hidden text-red-400 text-sm" role="alert"></div>
+
+            <div id="workout-grid" class="grid grid-cols-1 md:grid-cols-7 gap-4" role="region" aria-label="Weekly workout schedule">
+              <!-- Days will be dynamically populated -->
+            </div>
+          </section>
+
+          <!-- Progress Tracker Card -->
+          <section id="progress-tracker" class="card md:col-span-2" aria-labelledby="progress-title">
+            <h3 id="progress-title" class="text-xl font-semibold text-neon-blue mb-4">Progress Tracker</h3>
+            
+            <!-- CSS Grid Layout for Progress Visualizations -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
+              <!-- Weight Over Time Section -->
+              <div id="weight-section" data-test-id="weight-section">
+                <h4 class="text-lg font-medium text-gray-300 mb-4">Weight Over Time</h4>
+                <div id="weight-chart-container" data-test-id="weight-chart-container" class="bg-darker-bg rounded-md p-4 h-64 relative">
+                  <canvas 
+                    id="weight-chart-canvas" 
+                    data-test-id="weight-chart-canvas"
+                    aria-label="Weight trend over time line chart"
+                    role="img"
+                  ></canvas>
+                  <div id="weight-placeholder" data-test-id="weight-placeholder" class="absolute inset-0 flex items-center justify-center">
+                    <p class="text-gray-500 text-center">Weight trend will display here</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Workouts Completed Section -->
+              <div id="workouts-section" data-test-id="workouts-section">
+                <h4 class="text-lg font-medium text-gray-300 mb-4">Workouts Completed</h4>
+                <div id="workout-stats-container" data-test-id="workout-stats-container" class="bg-darker-bg rounded-md p-4 h-64 relative">
+                  <canvas 
+                    id="workout-stats-canvas" 
+                    data-test-id="workout-stats-canvas"
+                    aria-label="Workouts completed statistics chart"
+                    role="img"
+                  ></canvas>
+                  <div id="workout-stats-placeholder" data-test-id="workout-stats-placeholder" class="absolute inset-0 flex items-center justify-center">
+                    <p class="text-gray-500 text-center">Workout statistics will display here</p>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom focus indicators for accessibility */
+@layer utilities {
+  .focus-visible-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-blue focus-visible:ring-offset-2 focus-visible:ring-offset-darker-bg;
+  }
+}
+
+/* Base styles */
+body {
+  @apply bg-darker-bg text-gray-100 font-sans antialiased;
+}
+
+/* Card component styles */
+.card {
+  @apply bg-dark-bg rounded-lg shadow-lg p-6 border border-gray-700;
+}
+
+/* Input styles */
+input[type="text"],
+input[type="number"],
+select {
+  @apply bg-darker-bg border border-gray-600 text-gray-100 rounded-md px-4 py-2 focus-visible-ring;
+}
+
+/* Checkbox styles with focus indicator */
+input[type="checkbox"] {
+  @apply focus-visible-ring;
+}
+
+/* Button styles */
+button {
+  @apply bg-neon-blue hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-md transition-colors focus-visible-ring;
+}
+
+/* Link styles with focus indicator */
+a {
+  @apply focus-visible-ring;
+}
+
+/* BMI Category color coding */
+.bmi-underweight {
+  @apply bg-bmi-underweight text-gray-900;
+}
+
+.bmi-normal {
+  @apply bg-bmi-normal text-white;
+}
+
+.bmi-overweight {
+  @apply bg-bmi-overweight text-gray-900;
+}
+
+.bmi-obese {
+  @apply bg-bmi-obese text-white;
+}
